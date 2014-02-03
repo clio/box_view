@@ -6,10 +6,10 @@ require 'box_view/version'
 Gem::Specification.new do |spec|
   spec.name          = "box_view"
   spec.version       = BoxView::VERSION
-  spec.authors       = ["reillyforshaw"]
+  spec.authors       = ["Reilly Forshaw"]
   spec.email         = ["reilly.forshaw@goclio.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = "API client for Box View"
+  spec.summary       = "A ruby library to interact with Box View"
   spec.homepage      = ""
   spec.license       = "MIT"
 
