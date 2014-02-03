@@ -7,39 +7,39 @@ module BoxView
       uri
     end
 
-    def get(path, params = {})
+    def get(path, params={}, parse=true)
       uri = base_uri("#{api_prefix}/#{path}", params)
       req = Net::HTTP::Get.new(uri.to_s)
-      make_api_request(req, uri)
+      make_api_request(req, uri, parse)
     end
 
 
-    def post(path, body = "")
+    def post(path, body="", parse=true)
       uri = base_uri("#{api_prefix}/#{path}")
       req = Net::HTTP::Post.new(uri.request_uri)
       req.body = body
       req.add_field("Content-Type", "application/json")
-      make_api_request(req, uri)
+      make_api_request(req, uri, parse)
     end
 
-    def make_api_request(req, uri)
+    def make_api_request(req, uri, parse=true)
       return if self.token.nil? || self.token.empty?
       req.add_field("Authorization", "Token #{self.token}")
-      make_request(req, uri)
+      make_request(req, uri, parse)
     end
 
-    def make_request(req, uri)
+    def make_request(req, uri, parse=true)
       req.add_field("Accept", "text/json")
       n = Net::HTTP.new(uri.host, uri.port)
       n.use_ssl = true
       res = n.start do |http|
         http.request(req)
       end
-      parse_response(res)
+      parse_response(res, parse)
     end
 
-    def parse_response(res)
-      JSON.parse(res.body)
+    def parse_response(res, parse=true)
+      parse ? JSON.parse(res.body) : res.body
     end
 
     private

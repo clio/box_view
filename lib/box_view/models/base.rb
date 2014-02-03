@@ -1,6 +1,6 @@
 module BoxView
   class Base
-    
+
     attr_accessor :session
 
     def initialize(fields = {}, session = nil)

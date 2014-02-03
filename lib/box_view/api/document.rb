@@ -14,6 +14,14 @@ module BoxView
         data_item(session.post("documents", { url: url }.to_json), session)
       end
 
+      def thumbnail(id, width, height, filename)
+        f = File.open(filename, 'w')
+        f.write(session.get("documents/#{id}/thumbnail", { width: width, height: height }, false))
+        f.flush
+        f.close
+        f
+      end
+
       def data_klass
         BoxView::Document
       end
