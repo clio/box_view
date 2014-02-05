@@ -38,7 +38,7 @@ module BoxView
       private
 
       def data_klass
-        BoxView::Document
+        BoxView::Models::Document
       end
 
     end

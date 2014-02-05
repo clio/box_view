@@ -1,30 +1,32 @@
 module BoxView
-  class Document < Base
+  module Models
+    class Document < Base
 
-    has_attributes(
-      type:        { type: :string },
-      id:          { type: :string },
-      status:      { type: :string },
-      name:        { type: :name },
-      created_at:  { type: :datetime, readonly: true },
-      modified_at: { type: :datetime, readonly: true }
-    )
+      has_attributes(
+        type:        { type: :string },
+        id:          { type: :string },
+        status:      { type: :string },
+        name:        { type: :name },
+        created_at:  { type: :datetime, readonly: true },
+        modified_at: { type: :datetime, readonly: true }
+      )
 
-    def document_session
-      @document_session ||= BoxView::Api::DocumentSession.new(session).create(self.id)
+      def document_session
+        @document_session ||= BoxView::Api::DocumentSession.new(session).create(self.id)
+      end
+
+      def thumbnail(width, height, filename=self.id)
+        @thumbnail ||= BoxView::Api::Document.new(session).thumbnail(self.id, width, height, "#{self.id}.png")
+      end
+
+      def to_params
+        { name: self.name }
+      end
+
+      def api
+        BoxView::Api::Document.new(session)
+      end
+
     end
-
-    def thumbnail(width, height, filename=self.id)
-      @thumbnail ||= BoxView::Api::Document.new(session).thumbnail(self.id, width, height, "#{self.id}.png")
-    end
-
-    def to_params
-      { name: self.name }
-    end
-
-    def api
-      BoxView::Api::Document.new(session)
-    end
-
   end
 end

@@ -9,7 +9,7 @@ module BoxView
       private
 
       def data_klass
-        BoxView::DocumentSession
+        BoxView::Models::DocumentSession
       end
 
     end
