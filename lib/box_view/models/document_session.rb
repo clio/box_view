@@ -10,5 +10,13 @@ module BoxView
     def view_url(theme = "dark")
       "https://view-api.box.com/view/#{self.id}?theme=#{theme}"
     end
+
+    def to_params
+      {}
+    end
+
+    def api
+      BoxView::Api::DocumentSession.new(session)
+    end
   end
 end

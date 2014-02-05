@@ -9,8 +9,13 @@ module BoxView
       end
 
       private
+      
       def data_item(params, session)
         data_klass.new(params, session)
+      end
+
+      def data_klass
+        raise NotImplementedError.new
       end
 
     end

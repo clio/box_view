@@ -16,6 +16,26 @@ module BoxView
       instance_variable_set("@#{name}", value)
     end
 
+    def reload
+      api.find(self.id)
+    end
+
+    def save
+      api.update(self.id, self.to_params)
+    end
+
+    def destroy
+      api.destroy(self.id)
+    end
+
+    def api
+      raise NotImplementedError.new
+    end
+
+    def to_params
+      raise NotImplementedError.new
+    end
+
     class << self
       def has_attributes(attributes)
         attributes.each_pair do |name, options|

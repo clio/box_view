@@ -14,9 +14,17 @@ module BoxView
       @document_session ||= BoxView::Api::DocumentSession.new(session).create(self.id)
     end
 
-   def thumbnail(width, height, filename=self.id)
+    def thumbnail(width, height, filename=self.id)
       @thumbnail ||= BoxView::Api::Document.new(session).thumbnail(self.id, width, height, "#{self.id}.png")
-   end
+    end
+
+    def to_params
+      { name: self.name }
+    end
+
+    def api
+      BoxView::Api::Document.new(session)
+    end
 
   end
 end

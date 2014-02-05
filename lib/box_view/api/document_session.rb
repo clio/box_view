@@ -6,6 +6,8 @@ module BoxView
         data_item(session.post("sessions", { document_id: document_id }.to_json), session)
       end
 
+      private
+
       def data_klass
         BoxView::DocumentSession
       end
