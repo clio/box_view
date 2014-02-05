@@ -35,6 +35,20 @@ module BoxView
         f
       end
 
+      def content(id, filename)
+        raise ArgumentError.new("filename cannot be blank") if filename.nil? || filename.empty?
+
+        extension = filename.split(".").last
+        supported_extensions = %w(zip pdf)
+        raise ArgumentError.new("Unsupported content extension #{extension}. Must use one of #{supported_extensions}.") unless supported_extensions.include?(extension)
+
+        f = File.open(filename, 'w')
+        f.write(session.get("documents/#{id}/content.#{extension}", {}, false))
+        f.flush
+        f.close
+        f
+      end
+
       private
 
       def data_klass

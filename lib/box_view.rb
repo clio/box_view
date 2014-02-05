@@ -11,12 +11,14 @@ module BoxView
     autoload klass, "box_view/#{file}"
   end
 
-  {
-    Base:            'base',
-    Document:        'document',
-    DocumentSession: 'document_session'
-  }.each_pair do |klass, file|
-    autoload klass, "box_view/models/#{file}"
+  module Models
+    {
+      Base:            'base',
+      Document:        'document',
+      DocumentSession: 'document_session'
+    }.each_pair do |klass, file|
+      autoload klass, "box_view/models/#{file}"
+    end
   end
 
   module Api
