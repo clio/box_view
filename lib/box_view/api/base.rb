@@ -8,8 +8,20 @@ module BoxView
         self.session = session
       end
 
+      def list
+        raise NotImplementedError.new
+      end
+
+      def find(id)
+        raise NotImplementedError.new
+      end
+
+      def update(id, params)
+        raise NotImplementedError.new
+      end
+
       private
-      
+
       def data_item(params, session)
         data_klass.new(params, session)
       end
