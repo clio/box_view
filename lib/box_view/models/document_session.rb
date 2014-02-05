@@ -1,7 +1,11 @@
 module BoxView
   class DocumentSession < Base
     
-    attr_accessor :type, :id, :expires_at
+    has_attributes(
+      type:       { type: :string },
+      id:         { type: :string },
+      expires_at: { type: :datetime, readonly: true }
+    )
 
     def view_url(theme = "dark")
       "https://view-api.box.com/view/#{self.id}?theme=#{theme}"

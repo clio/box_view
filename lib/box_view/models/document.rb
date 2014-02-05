@@ -1,7 +1,14 @@
 module BoxView
   class Document < Base
 
-    attr_accessor :type, :id, :status, :name, :created_at, :modified_at
+    has_attributes(
+      type:        { type: :string },
+      id:          { type: :string },
+      status:      { type: :string },
+      name:        { type: :name },
+      created_at:  { type: :datetime, readonly: true },
+      modified_at: { type: :datetime, readonly: true }
+    )
 
     def document_session
       @document_session ||= BoxView::Api::DocumentSession.new(session).create(self.id)
