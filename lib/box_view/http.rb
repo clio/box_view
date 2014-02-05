@@ -22,6 +22,20 @@ module BoxView
       make_api_request(req, uri, parse)
     end
 
+    def put(path, body="", parse=true)
+      uri = base_uri("#{api_prefix}/#{path}")
+      req = Net::HTTP::Put.new(uri.request_uri)
+      req.body = body
+      req.add_field("Content-Type", "application/json")
+      make_api_request(req, uri, parse)
+    end
+
+    def delete(path, parse=true)
+      uri = base_uri("#{api_prefix}/#{path}")
+      req = Net::HTTP::Delete.new(uri.request_uri)
+      make_api_request(req, uri, parse)
+    end
+
     def make_api_request(req, uri, parse=true)
       return if self.token.nil? || self.token.empty?
       req.add_field("Authorization", "Token #{self.token}")
