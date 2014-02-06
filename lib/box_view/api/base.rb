@@ -4,8 +4,8 @@ module BoxView
 
       attr_accessor :session
 
-      def initialize(session)
-        self.session = session
+      def initialize(session=nil)
+        self.session = session || BoxView::Session.new
       end
 
       def list
