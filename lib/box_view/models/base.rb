@@ -1,7 +1,7 @@
 module BoxView
   module Models
 
-    class ReadOnlyAttributeError < Exception; end
+    class ReadOnlyAttribute < Exception; end
     class ResourceNotSaved < Exception; end
     
     class Base
@@ -22,7 +22,7 @@ module BoxView
       end
 
       def reload
-        raise ResourceNotSaved if self.id.nil?
+        raise ResourceNotSaved.new if self.id.nil?
         api.find(self.id)
       end
 
@@ -38,7 +38,7 @@ module BoxView
       end
 
       def destroy
-        raise ResourceNotSaved if self.id.nil?
+        raise ResourceNotSaved.new if self.id.nil?
         api.destroy(self.id)
       end
 
@@ -56,7 +56,7 @@ module BoxView
             attr_reader name
             define_method "#{name}=" do |value|
               if options[:readonly] && !instance_variable_get("@#{name}").nil?
-                raise ReadOnlyAttributeError.new(name)
+                raise ReadOnlyAttribute.new(name)
               end
               write_attribute(name, self.class.convert_attribute(value, options[:type]))
             end

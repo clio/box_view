@@ -12,6 +12,13 @@ describe BoxView::Models::Base do
   }
 
   describe "#reload" do
+    context "when the resource is not saved" do
+      before { model.stub(:id) }
+      it "should raise ResourceNotSaved" do
+        expect{model.reload}.to raise_error(BoxView::Models::ResourceNotSaved)
+      end
+    end
+
     it "should use the api's find method" do
       model.api.should_receive(:find)
       model.reload
@@ -19,6 +26,18 @@ describe BoxView::Models::Base do
   end
 
   describe "#save" do
+    context "when the resource is not saved" do
+      before {
+        model.stub(:id)
+        model.api.stub(:create).and_return(double("BoxView::Models::Base", id: 1))
+      }
+      it "should use the api's create method" do
+        model.api.should_receive(:create)
+        model.should_receive(:id=)
+        model.save
+      end
+    end
+
     it "should use the api's update method" do
       model.api.should_receive(:update)
       model.save
@@ -26,6 +45,13 @@ describe BoxView::Models::Base do
   end
 
   describe "#destroy" do
+    context "when the resource is not saved" do
+      before { model.stub(:id) }
+      it "should raise ResourceNotSaved" do
+        expect{model.destroy}.to raise_error(BoxView::Models::ResourceNotSaved)
+      end
+    end
+
     it "should use the api's destroy method" do
       model.api.should_receive(:destroy)
       model.destroy
@@ -51,7 +77,7 @@ describe BoxView::Models::Base do
 
     context "when an attribute is readonly" do
       it "should create setter that throws an exception" do
-        expect{model.foo = "bar"}.to raise_error(BoxView::Models::ReadOnlyAttributeError)
+        expect{model.foo = "bar"}.to raise_error(BoxView::Models::ReadOnlyAttribute)
       end
     end
 
