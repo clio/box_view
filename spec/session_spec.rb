@@ -14,7 +14,7 @@ describe BoxView::Session do
     let(:credentials) { { token: override_token } }
     let(:override_token) { "overridden token" }
 
-    it "should use the token passed in" do
+    it "should use supplied token" do
       expect(session.token).to eql(override_token)
     end
   end
