@@ -1,5 +1,8 @@
 module BoxView
   module Models
+
+    class ReadOnlyAttributeError < Exception; end
+    
     class Base
 
       require 'time'
@@ -43,7 +46,7 @@ module BoxView
             attr_reader name
             define_method "#{name}=" do |value|
               if options[:readonly] && !instance_variable_get("@#{name}").nil?
-                raise "Attempting to set readonly attribute #{name}"
+                raise ReadOnlyAttributeError.new(name)
               end
               write_attribute(name, self.class.convert_attribute(value, options[:type]))
             end
