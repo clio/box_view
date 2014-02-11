@@ -1,9 +1,12 @@
 module BoxView
   module Http
+
+    require 'time'
+    
     def base_uri(path, params = {})
       uri = URI.parse("https://view-api.box.com")
       uri.path = path
-      uri.query = URI.encode_www_form(params) if params.any?
+      uri.query = URI.encode_www_form(convert_params(params)) if params.any?
       uri
     end
 
@@ -54,6 +57,15 @@ module BoxView
 
     def parse_response(res, parse=true)
       parse ? JSON.parse(res.body) : res.body
+    end
+
+    def convert_params(params)
+      params.each_pair do |key, val|
+        if [Date, Time, DateTime].include?(val.class)
+          params[key] = val.iso8601
+        end
+      end
+      params
     end
 
     private

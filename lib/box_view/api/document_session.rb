@@ -2,8 +2,14 @@ module BoxView
   module Api
     class DocumentSession < Base
 
-      def create(document_id)
-        data_item(session.post("sessions", { document_id: document_id }.to_json), session)
+      include BoxView::Api::Actions::Crudable
+
+      def update(*args)
+        raise NotImplementedException
+      end
+
+      def destroy(*args)
+        raise NotImplementedException
       end
 
       private
@@ -11,6 +17,8 @@ module BoxView
       def data_klass
         BoxView::Models::DocumentSession
       end
+
+      def endpoint_url; "sessions"; end
 
     end
   end

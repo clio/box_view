@@ -29,5 +29,15 @@ module BoxView
     }.each_pair do |klass, file|
       autoload klass, "box_view/api/#{file}"
     end
+
+    module Actions
+      {
+        Crudable: 'crudable',
+        Findable: 'findable',
+        Listable: 'listable'
+      }.each_pair do |klass, file|
+        autoload klass, "box_view/api/actions/#{file}"
+      end
+    end
   end
 end

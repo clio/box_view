@@ -2,29 +2,24 @@ module BoxView
   module Api
     class Document < Base
 
-      def list(limit=nil, created_before=nil, created_after=nil)
-        params = {}
-        params[:limit] = limit if !limit.nil?
-        params[:created_before] = created_before.iso8601 if !created_before.nil?
-        params[:created_after] = created_after.iso8601 if !created_after.nil?
+      include BoxView::Api::Actions::Findable
+      include BoxView::Api::Actions::Listable
+      include BoxView::Api::Actions::Crudable
 
-        docs = session.get("documents", params)["document_collection"]["entries"].collect{ |doc| data_item(doc, session) }
+      def item_from_data(response_data, action)
+        if action == :list
+          response_data["document_collection"]["entries"]
+        else
+          response_data
+        end
       end
 
-      def find(id)
-        data_item(session.get("documents/#{id}"), session)
-      end
-
-      def update(id, params)
-        data_item(session.put("documents/#{id}", params.to_json), session)
-      end
-
-      def destroy(id)
-        session.delete("documents/#{id}", false)
+      def create(*args)
+        raise NotImplementedError
       end
 
       def upload(url)
-        data_item(session.post("documents", { url: url }.to_json), session)
+        data_item(session.post(endpoint_url, { url: url }.to_json), session)
       end
 
       def thumbnail(id, width, height, filename)
@@ -54,6 +49,8 @@ module BoxView
       def data_klass
         BoxView::Models::Document
       end
+
+      def endpoint_url; "documents"; end
 
     end
   end
