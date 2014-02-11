@@ -2,6 +2,7 @@ module BoxView
   module Models
 
     class ReadOnlyAttributeError < Exception; end
+    class ResourceNotSaved < Exception; end
     
     class Base
 
@@ -21,14 +22,23 @@ module BoxView
       end
 
       def reload
+        raise ResourceNotSaved if self.id.nil?
         api.find(self.id)
       end
 
       def save
-        api.update(self.id, self.to_params)
+        if self.id.nil?
+          created_item = api.create(self.to_params)
+          self.id = created_item && created_item.id
+          self
+        else
+          api.update(self.id, self.to_params)
+          self
+        end
       end
 
       def destroy
+        raise ResourceNotSaved if self.id.nil?
         api.destroy(self.id)
       end
 
