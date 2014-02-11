@@ -1,0 +1,1 @@
+require 'box_view'
