@@ -8,18 +8,6 @@ module BoxView
         self.session = session || BoxView::Session.new
       end
 
-      def list
-        raise NotImplementedError.new
-      end
-
-      def find(id)
-        raise NotImplementedError.new
-      end
-
-      def update(id, params)
-        raise NotImplementedError.new
-      end
-
       private
 
       def data_item(params, session)
