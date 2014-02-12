@@ -14,11 +14,6 @@ module BoxView
         def destroy(id)
           session.delete("#{endpoint_url}/#{id}", false)
         end
-
-        def item_from_data(response_data, action)
-          response_data
-        end
-
       end
     end
   end
