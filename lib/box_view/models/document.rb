@@ -16,7 +16,7 @@ module BoxView
       end
 
       def thumbnail(width, height, filename="#{self.id}.png")
-        @thumbnail ||= self.api.thumbnail(self.id, width, height, filename)
+        self.api.thumbnail(self.id, width, height, filename)
       end
 
       def content(filename="#{self.id}.zip")
