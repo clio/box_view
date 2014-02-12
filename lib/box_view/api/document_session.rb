@@ -5,11 +5,11 @@ module BoxView
       include BoxView::Api::Actions::Crudable
 
       def update(*args)
-        raise NotImplementedException
+        raise NotImplementedError
       end
 
       def destroy(*args)
-        raise NotImplementedException
+        raise NotImplementedError
       end
 
       private
