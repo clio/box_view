@@ -6,6 +6,14 @@ module BoxView
       include BoxView::Api::Actions::Listable
       include BoxView::Api::Actions::Crudable
 
+      def self.supported_filetypes
+        [:pdf, :doc, :docx, :ppt, :pptx]
+      end
+
+      def self.supported_filetype?(filetype)
+        supported_filetypes.include?(filetype)
+      end
+
       def item_from_data(response_data, action)
         if action == :list
           response_data["document_collection"]["entries"]
@@ -22,24 +30,16 @@ module BoxView
         data_item(session.post(endpoint_url, { url: url, name: name }.to_json), session)
       end
 
-      def thumbnail(id, width, height, filename)
-        f = File.open(filename, 'w')
-        f.write(session.get("#{endpoint_url}/#{id}/thumbnail", { width: width, height: height }, false))
-        f.flush
-        f.close
-        f
+      def thumbnail(id, width, height)
+        session.get("#{endpoint_url}/#{id}/thumbnail", { width: width, height: height }, false)
       end
 
-      def content(id, filename)
-        extension = filename.split(".").last
+      def content(id, extension=nil)
         supported_extensions = %w(zip pdf)
-        raise ArgumentError.new("Unsupported content extension #{extension}. Must use one of #{supported_extensions}.") unless supported_extensions.include?(extension)
+        raise ArgumentError.new("Unsupported content extension #{extension}. Must use one of #{supported_extensions} or nil.") unless supported_extensions.include?(extension) || extension.nil?
 
-        f = File.open(filename, 'w')
-        f.write(session.get("#{endpoint_url}/#{id}/content.#{extension}", {}, false))
-        f.flush
-        f.close
-        f
+        extension = ".#{extension}" if extension
+        session.get("#{endpoint_url}/#{id}/content#{extension}", {}, false)
       end
 
       private
