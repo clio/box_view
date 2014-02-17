@@ -18,7 +18,7 @@ module BoxView
       end
 
       def api
-        BoxView::Api::DocumentSession.new(session)
+        @api ||= BoxView::Api::DocumentSession.new(session)
       end
 
     end

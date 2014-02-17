@@ -10,7 +10,7 @@ class DummyResource < BoxView::Models::Base
   end
 
   def api
-    DummyApi.new(session)
+    @api ||= DummyApi.new(session)
   end
 
 end
