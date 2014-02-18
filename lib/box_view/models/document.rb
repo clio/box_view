@@ -15,11 +15,11 @@ module BoxView
         @document_session ||= BoxView::Api::DocumentSession.new(session).create(document_id: self.id)
       end
 
-      def thumbnail(width, height, filename="#{self.id}.png")
-        self.api.thumbnail(self.id, width, height, filename)
+      def thumbnail(width, height)
+        self.api.thumbnail(self.id, width, height)
       end
 
-      def content(filename="#{self.id}.zip")
+      def content(extension=nil)
         self.api.content(self.id, filename)
       end
 
