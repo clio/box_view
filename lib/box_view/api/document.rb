@@ -11,7 +11,7 @@ module BoxView
       end
 
       def self.supported_filetype?(filetype)
-        supported_filetypes.include?(filetype)
+        supported_filetypes.include?(filetype.to_sym)
       end
 
       def create(*args)
