@@ -29,7 +29,7 @@ Or configure a session and pass it to the API when you instatiate it.
     session = BoxView::Session.new(token: YOUR_API_KEY)
     BoxView::Api::Document.new(session)
 
-Upload a document at a url
+Upload a document at a url.
 
     doc = BoxView::Api::Document.new.upload("http://www.example.com/myfile.pdf", "My File")
 
@@ -51,14 +51,14 @@ List all of your Box View documents.
 
 Generate a thumbnail of a document
 
-    f = File.open("myfile.pdf", w')
+    f = File.open("myfile.pdf", 'w')
     f.write(doc.thumbnail(100, 100))
     f.flush
     f.close
 
 Download the conents in pdf or zip format
 
-    f = File.open("myfile.pdf", w')
+    f = File.open("myfile.pdf", 'w')
     f.write(doc.content("pdf"))
     f.flush
     f.close
