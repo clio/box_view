@@ -10,7 +10,7 @@ describe BoxView::Api::Actions::Listable do
 
   describe "#list" do
     let(:response) do
-      [{ id: 1 }, { id: 2 }]
+      { "document_collection" => { "entries" => [{ id: 1 }, { id: 2 }] } }
     end
 
     it "should return the correct data items" do

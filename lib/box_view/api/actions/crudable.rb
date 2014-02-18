@@ -4,11 +4,11 @@ module BoxView
       module Crudable
 
         def create(params)
-          data_item(item_from_data(session.post(endpoint_url, session.convert_params(params).to_json), :create), session)
+          data_item(session.post(endpoint_url, session.convert_params(params).to_json), session)
         end
 
         def update(id, params)
-          data_item(item_from_data(session.put("#{endpoint_url}/#{id}", session.convert_params(params).to_json), :update), session)
+          data_item(session.put("#{endpoint_url}/#{id}", session.convert_params(params).to_json), session)
         end
 
         def destroy(id)

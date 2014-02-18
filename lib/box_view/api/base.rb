@@ -17,10 +17,6 @@ module BoxView
       def data_klass
         raise NotImplementedError.new
       end
-
-      def item_from_data(response_data, action)
-        response_data
-      end
     end
   end
 end

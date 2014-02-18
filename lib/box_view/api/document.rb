@@ -14,14 +14,6 @@ module BoxView
         supported_filetypes.include?(filetype)
       end
 
-      def item_from_data(response_data, action)
-        if action == :list
-          response_data["document_collection"]["entries"]
-        else
-          response_data
-        end
-      end
-
       def create(*args)
         raise NotImplementedError
       end

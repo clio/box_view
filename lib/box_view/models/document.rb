@@ -20,7 +20,7 @@ module BoxView
       end
 
       def content(extension=nil)
-        self.api.content(self.id, filename)
+        self.api.content(self.id, extension)
       end
 
       def to_params

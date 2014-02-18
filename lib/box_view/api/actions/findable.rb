@@ -4,7 +4,7 @@ module BoxView
       module Findable
 
         def find(id)
-          data_item(item_from_data(session.get("#{endpoint_url}/#{id}"), :find), session)
+          data_item(session.get("#{endpoint_url}/#{id}"), session)
         end
       end
     end
