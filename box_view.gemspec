@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["reilly.forshaw@goclio.com"]
   spec.description   = "API client for Box View"
   spec.summary       = "A ruby library to interact with Box View"
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/reillyforshaw/box_view"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
