@@ -10,7 +10,7 @@ module BoxView
 
       def view_url(theme = "dark")
         return nil if self.id.nil?
-        "https://view-api.box.com/view/#{self.id}?theme=#{theme}"
+        "https://view-api.box.com/1/sessions/#{self.id}/view?theme=#{theme}"
       end
 
       def to_params
