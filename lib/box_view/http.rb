@@ -52,11 +52,15 @@ module BoxView
       res = n.start do |http|
         http.request(req)
       end
-      parse_response(res, parse)
+      parse ? parse_response(res) : res.body
     end
 
-    def parse_response(res, parse=true)
-      parse ? JSON.parse(res.body) : res.body
+    def parse_response(res)
+      begin
+        JSON.parse(res.body)
+      rescue JSON::ParserError
+        nil
+      end
     end
 
     def convert_params(params)
