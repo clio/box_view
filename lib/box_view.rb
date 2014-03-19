@@ -4,6 +4,8 @@ require "net/http"
 require "json"
 
 module BoxView
+  class Error < StandardError; end
+
   {
     Session: 'session',
     Http:    'http'
