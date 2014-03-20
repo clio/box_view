@@ -1,9 +1,9 @@
 module BoxView
   module Models
 
-    class ReadOnlyAttribute < Exception; end
-    class ResourceNotSaved < Exception; end
-    
+    class ReadOnlyAttribute < BoxView::Error; end
+    class ResourceNotSaved < BoxView::Error; end
+
     class Base
 
       require 'time'

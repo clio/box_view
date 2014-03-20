@@ -2,7 +2,19 @@ module BoxView
   module Http
 
     require 'time'
-    
+
+    class Error < BoxView::Error; end
+
+    class BadRequestError < BoxView::Http::Error; end
+    class RetryNeededError < BoxView::Http::Error
+      attr_reader :retry_after
+
+      def initialize(msg, retry_after)
+        @retry_after = retry_after
+        super(msg)
+      end
+    end
+
     def base_uri(path, params = {})
       uri = URI.parse("https://view-api.box.com")
       uri.path = path
@@ -52,15 +64,30 @@ module BoxView
       res = n.start do |http|
         http.request(req)
       end
+      check_for_error(res)
       parse ? parse_response(res) : res.body
     end
 
-    def parse_response(res)
-      begin
-        JSON.parse(res.body)
-      rescue JSON::ParserError
-        nil
+    def check_for_error(res)
+      case res
+      when Net::HTTPAccepted
+        if res['Retry-After']
+          raise BoxView::Http::RetryNeededError.new('Retry Needed', res['Retry-After'])
+        end
+      when Net::HTTPBadRequest
+        msg = 'Bad Request'
+        if err_dets = error_details(res)
+          msg += " (#{err_dets})"
+        end
+
+        raise BoxView::Http::BadRequestError.new(msg)
       end
+    end
+
+    def parse_response(res)
+      JSON.parse(res.body)
+    rescue JSON::ParserError
+      nil
     end
 
     def convert_params(params)
@@ -73,6 +100,16 @@ module BoxView
     end
 
     private
+
+    def error_details(res)
+      if resp_json = parse_response(res)
+        if details = resp_json['details']
+          details.map { |d| [d['field'], d['message']].join(': ') }.join(' ')
+        end
+      end
+    rescue
+      nil
+    end
 
     def api_prefix()
       "/1"
