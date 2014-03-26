@@ -14,6 +14,7 @@ module BoxView
         super(msg)
       end
     end
+    class RequestThrottledError < BoxView::Http::RetryNeededError; end
 
     def base_uri(path, params = {})
       uri = URI.parse("https://view-api.box.com")
@@ -81,6 +82,8 @@ module BoxView
         end
 
         raise BoxView::Http::BadRequestError.new(msg)
+      when Net::HTTPTooManyRequests
+        raise BoxView::Http::RequestThrottledError.new('Request Throttled', res['Retry-After'])
       end
     end
 
