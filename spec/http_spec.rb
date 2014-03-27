@@ -73,7 +73,7 @@ describe BoxView::Http do
           "request_id": "5b296c69f9f94c0eace43a5912fcbb41"}'
       end
       let(:response) do
-        Net::HTTPTooManyRequests.new('1.1', '429', 'TOO MANY REQUESTS').tap do |r|
+        Net::HTTPClientError.new('1.1', '429', 'TOO MANY REQUESTS').tap do |r|
           r['Retry-After'] == '2'
           r.stub(:body).and_return(body)
         end
