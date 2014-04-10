@@ -66,5 +66,24 @@ describe BoxView::Http do
         end
       end
     end
+
+    context 'given a 429 response' do
+      let(:body) do
+        '{"message": "Request was throttled. Try again in 2 seconds", "type": "error",
+          "request_id": "5b296c69f9f94c0eace43a5912fcbb41"}'
+      end
+      let(:response) do
+        Net::HTTPClientError.new('1.1', '429', 'TOO MANY REQUESTS').tap do |r|
+          r['Retry-After'] == '2'
+          r.stub(:body).and_return(body)
+        end
+      end
+
+      it 'should raise a BoxView::Http:BadRequest with a message indicating the problem' do
+        expect { subject }.to raise_error(BoxView::Http::RequestThrottledError) do |error|
+          error.retry_after.should == '2'
+        end
+      end
+    end
   end
 end
