@@ -7,7 +7,7 @@ module BoxView
       include BoxView::Api::Actions::Crudable
 
       def self.supported_filetypes
-        [:pdf, :doc, :docx, :ppt, :pptx]
+        [:pdf, :doc, :docx, :ppt, :pptx, :xls, :xlsx, :txt, :py, :js, :xml, :html, :css, :md, :pl, :c, :m]
       end
 
       def self.supported_filetype?(filetype)
